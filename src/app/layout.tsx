@@ -15,7 +15,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "DevBuddyAI",
-  description: "DevBuddyAI is a tool to help you with your coding problems.",
+  description:
+    "DevBuddyAI is an AI developer assistant that helps you with your coding problems.",
 };
 
 export default function RootLayout({
