@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { AppBar, Box, Button, List, TextField, Toolbar, Typography } from "@mui/material";
 
@@ -15,8 +15,18 @@ type Message = {
 
 
 export default function Home() {
-  const [data, setData] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState<string>("");
+
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSend = (user: string) => {
     if (!text) return;
@@ -24,7 +34,7 @@ export default function Home() {
     const sender = user === "me" ? "me" : "ai";
     const response = { sender: sender, text: text };
 
-    setData([...data, response]);
+    setMessages([...messages, response]);
     setText("");
   };
 
@@ -72,12 +82,13 @@ export default function Home() {
       <Box sx={{ height: "80vh", width: "100%", overflowY: "scroll" }}>
         {/* display messages */}
         <List sx={{ padding: 2 }}>
-          {data.map((message, index) => (
+          {messages.map((message, index) => (
             <Box key={index} sx={{ display: "flex", paddingBottom: 1 }}>
               {message.sender === "me" ? renderUserMessage(message) : renderAIResponse(message)}
             </Box>
           ))}
         </List>
+        <div ref={messagesEndRef} />
       </Box>
 
       <Box sx={{ display: "flex", padding: 2, gap: 2, backgroundColor: "#e3e3e3", boxShadow: 3 }}>
