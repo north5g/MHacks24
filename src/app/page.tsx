@@ -1,101 +1,76 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState } from "react";
+
+import { AppBar, Box, Button, List, TextField, Toolbar, Typography } from "@mui/material";
+
+type Message = {
+  user: string;
+  text: string;
+};
+
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [data, setData] = useState<Message[]>([]);
+  const [text, setText] = useState<string>("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const handleSend = () => {
+    if (!text) return;
+    setData([...data, { user: "me", text: text }]);
+    setText("");
+  };
+
+  const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) return;
+    setText(event.target.value);
+  };
+
+  const renderAIResponse = (response: Message) => {
+    return (
+      <Box sx={{ display: "flex", alignItems: "baseline", backgroundColor: "#f4f4f4", borderRadius: 4, padding: 1 }}>
+        <Typography variant="h6" sx={{ color: "black" }}>{response.user}: </Typography>
+        <Typography variant="body1" sx={{ color: "black" }}>{response.text}</Typography>
+      </Box>);
+  };
+
+  const renderUserMessage = (message: Message) => {
+    return (
+      <Box sx={{ display: "flex", alignItems: "baseline", backgroundColor: "#f4f4f4", borderRadius: 4, padding: 1 }}>
+        <Typography variant="h6" sx={{ color: "black" }}>{message.user}: </Typography>
+        <Typography variant="body1" sx={{ color: "black" }}>{message.text}</Typography>
+      </Box>);
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1, backgroundColor: "#424242" }}>
+      <AppBar position="static">
+        <Toolbar sx={{ gap: 1, backgroundColor: "#aaaaaa" }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 0 }}>
+            👋
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            DevBuddyAI
+          </Typography>
+          <Typography variant="h6" component="div">MHacks 24</Typography>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ height: "80vh", width: "100%" }}>
+
+        {/* display chat messages */}
+        <List sx={{ padding: 1, overflowY: "scroll" }}>
+          {data.map((message, index) => (
+            <Box key={index} sx={{ display: "flex", paddingBottom: 1 }}>
+              {message.user === "me" ? renderUserMessage(message) : renderAIResponse(message)}
+            </Box>
+          ))}
+        </List>
+      </Box>
+
+      <Box sx={{ display: "flex", padding: 2, gap: 2, backgroundColor: "#aaaaaa" }}>
+        <TextField value={text} variant="outlined" fullWidth onChange={handleChangeText} />
+        <Button variant="outlined" onClick={handleSend}>Send</Button>
+      </Box>
+
+    </Box>
   );
 }
