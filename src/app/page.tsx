@@ -15,6 +15,8 @@ import {
 import ArrowCircleUpRoundedIcon from "@mui/icons-material/ArrowCircleUpRounded";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GrainIcon from "@mui/icons-material/Grain";
+import Markdown from "react-markdown";
+
 import { send } from "@/services/ai.service";
 
 type Message = {
@@ -42,7 +44,7 @@ export default function Home() {
 
     // Add user message to the list
     const response = { sender: "me", prompt: message };
-    setMessages([...messages, response]);
+    setMessages((prevState) => [...prevState, response]);
     setText("");
 
     // Send message to the AI
@@ -50,9 +52,11 @@ export default function Home() {
       const response = await send(message);
       console.log("[DEBUG] response", response);
 
+      const aiMessage = response.candidates[0].content.parts[0].text;
+
       // Add AI response to the list
-      const aiResponse = { sender: "ai", prompt: message };
-      setMessages([...messages, aiResponse]);
+      const aiResponse = { sender: "ai", prompt: aiMessage };
+      setMessages((prevState) => [...prevState, aiResponse]);
     } catch (error) {
       console.error(error as string);
     }
@@ -74,16 +78,14 @@ export default function Home() {
         sx={{
           display: "flex",
           alignItems: "center",
-          backgroundColor: "#f4f4f4",
+          backgroundColor: "#3e3e3e",
           borderRadius: 4,
           padding: 1,
           gap: 1,
         }}
       >
-        <GrainIcon />
-        <Typography variant="body1" sx={{ color: "black" }}>
-          {response.prompt}
-        </Typography>
+        <GrainIcon color="info" />
+        <Markdown>{response.prompt}</Markdown>
       </Box>
     );
   };
@@ -94,16 +96,14 @@ export default function Home() {
         sx={{
           display: "flex",
           alignItems: "center",
-          backgroundColor: "#f4f4f4",
+          backgroundColor: "#3e3e3e",
           borderRadius: 4,
           padding: 1,
           gap: 1,
         }}
       >
-        <AccountCircleIcon />
-        <Typography variant="body1" sx={{ color: "black" }}>
-          {message.prompt}
-        </Typography>
+        <AccountCircleIcon color="info" />
+        <Markdown>{message.prompt}</Markdown>
       </Box>
     );
   };
@@ -154,7 +154,7 @@ export default function Home() {
           onKeyPress={handleKeyPress}
         />
         <Button variant="outlined" onClick={() => handleSend()}>
-          <ArrowCircleUpRoundedIcon />
+          <ArrowCircleUpRoundedIcon color="primary" />
         </Button>
       </Box>
     </Box>
