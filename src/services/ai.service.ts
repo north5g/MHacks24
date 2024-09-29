@@ -6,7 +6,7 @@ const API_ENDPOINT =
 
 const SECRET_KEY = "AIzaSyCY2TWacfM4DbyMQNKLuSrdyH9e_p3K44c";
 
-export const send = async (text: string): Promise<any> => {
+export const send = async (text: string) => {
   const options = {
     url: `${API_ENDPOINT}?key=${SECRET_KEY}`,
     method: "POST",
