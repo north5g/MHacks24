@@ -19,7 +19,7 @@ import { send } from "@/services/ai.service";
 
 type Message = {
   sender: string;
-  text: string;
+  prompt: string;
 };
 
 export default function Home() {
@@ -36,22 +36,22 @@ export default function Home() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async (user: string) => {
-    if (!text) return;
+  const handleSend = async () => {
+    const message = text.trim();
+    if (!message) return;
 
     // Add user message to the list
-    const sender = user === "me" ? "me" : "ai";
-    const response = { sender: sender, text: text };
+    const response = { sender: "me", prompt: message };
     setMessages([...messages, response]);
     setText("");
 
     // Send message to the AI
     try {
-      const response = await send(text);
+      const response = await send(message);
       console.log("[DEBUG] response", response);
 
       // Add AI response to the list
-      const aiResponse = { sender: "ai", text: response.text };
+      const aiResponse = { sender: "ai", prompt: message };
       setMessages([...messages, aiResponse]);
     } catch (error) {
       console.error(error as string);
@@ -64,7 +64,7 @@ export default function Home() {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter") {
-      handleSend("ai");
+      handleSend();
     }
   };
 
@@ -82,7 +82,7 @@ export default function Home() {
       >
         <GrainIcon />
         <Typography variant="body1" sx={{ color: "black" }}>
-          {response.text}
+          {response.prompt}
         </Typography>
       </Box>
     );
@@ -102,7 +102,7 @@ export default function Home() {
       >
         <AccountCircleIcon />
         <Typography variant="body1" sx={{ color: "black" }}>
-          {message.text}
+          {message.prompt}
         </Typography>
       </Box>
     );
@@ -153,7 +153,7 @@ export default function Home() {
           onChange={handleChangeText}
           onKeyPress={handleKeyPress}
         />
-        <Button variant="outlined" onClick={() => handleSend("me")}>
+        <Button variant="outlined" onClick={() => handleSend()}>
           <ArrowCircleUpRoundedIcon />
         </Button>
       </Box>
