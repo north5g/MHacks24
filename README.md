@@ -34,3 +34,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Google Gemini API
+
+Check out: [Get API key](https://aistudio.google.com/app/apikey)
+
+## How to use the API key
+
+- Create .env.local file in the root directory
+- Add your API key to the .env.local file
+- Add the following line to the .env.local file
+  ```bash
+  NEXT_PUBLIC_AI_API_ENDPOINT=your_api_key
+  NEXT_PUBLIC_AI_SECRET_KEY=your_secret_key
+    ```
+- Run the development server
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
