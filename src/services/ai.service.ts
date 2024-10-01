@@ -1,10 +1,7 @@
 import axios from "axios";
 
-// const API_ENDPOINT = "http://localhost:3000";
-const API_ENDPOINT =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
-
-const SECRET_KEY = "AIzaSyCY2TWacfM4DbyMQNKLuSrdyH9e_p3K44c";
+const API_ENDPOINT = process.env.NEXT_PUBLIC_AI_API_ENDPOINT;
+const SECRET_KEY = process.env.NEXT_PUBLIC_AI_SECRET_KEY;
 
 export const send = async (text: string) => {
   const options = {
