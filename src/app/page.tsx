@@ -78,6 +78,7 @@ export default function Home() {
         sx={{
           display: "flex",
           alignItems: "center",
+          color: 'white',
           backgroundColor: "#3e3e3e",
           borderRadius: 4,
           padding: 1,
@@ -96,6 +97,7 @@ export default function Home() {
         sx={{
           display: "flex",
           alignItems: "center",
+          color: 'white',
           backgroundColor: "#3e3e3e",
           borderRadius: 4,
           padding: 1,
