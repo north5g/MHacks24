@@ -39,13 +39,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 Check out: [Get API key](https://aistudio.google.com/app/apikey)
 
+Example: 
+
+```
+# URL
+https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY
+
+# AI_API_ENDPOINT
+https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent
+
+# AI_SECRET_KEY
+YOUR_API_KEY
+```
+
 ## How to use the API key
 
 - Create .env.local file in the root directory
-- Add your API key to the .env.local file
 - Add the following line to the .env.local file
   ```bash
-  NEXT_PUBLIC_AI_API_ENDPOINT=your_api_key
+  NEXT_PUBLIC_AI_API_ENDPOINT=your_api_endpoint
   NEXT_PUBLIC_AI_SECRET_KEY=your_secret_key
     ```
 - Run the development server
